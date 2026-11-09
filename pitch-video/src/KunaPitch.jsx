@@ -6,13 +6,13 @@ import './demo.css';
 const scenes = [
   {start: 0, end: 330, index: '01', eyebrow: 'LOKALNI TRŽIŠNI KOMPAS', title: ['Otvoriti posao', 'ne bi smjelo početi', 'nagađanjem.'], copy: 'KUNA pretvara javne podatke u razgovor o lokaciji.', kind: 'opening'},
   {start: 330, end: 660, index: '02', eyebrow: 'PROBLEM', title: ['Podaci postoje.', 'Odluka je i dalje', 'teška.'], copy: 'Karta, demografija, pristup i konkurencija rijetko su na istome mjestu.', kind: 'problem'},
-  {start: 660, end: 990, index: '03', kind: 'demo', shot: 'app-location.png', scale: 1.34, origin: '15% 44%', action: {from: [255, 610], to: [145, 535], click: 72}, focus: {left: 102, top: 111, width: 258, height: 500, label: 'ODABERI GRAD I PROFIL'}},
-  {start: 990, end: 1320, index: '04', kind: 'demo', shot: 'app-market.png', scale: 1.42, origin: '23% 18%', action: {from: [555, 292], to: [451, 199], click: 76}, focus: {left: 367, top: 112, width: 224, height: 137, label: 'UKLJUČI POSLOVNE SLOJEVE'}},
-  {start: 1320, end: 1650, index: '05', kind: 'demo', shot: 'app-market.png', scale: 1.25, origin: '55% 50%', action: {from: [1150, 708], to: [938, 548], click: 78}, focus: {left: 600, top: 150, width: 854, height: 770, label: 'ČITAJ ODNOS SIGNALA NA KARTI'}},
-  {start: 1650, end: 1980, index: '06', kind: 'demo', shot: 'app-ai.png', scale: 1.31, origin: '50% 47%', action: {from: [920, 472], to: [1080, 594], click: 150}, focus: {left: 670, top: 365, width: 488, height: 304, label: 'PITAJ KUNA AI O LOKACIJI'}, ai: true},
-  {start: 1980, end: 2310, index: '07', kind: 'demo', shot: 'app-plan.png', scale: 1.45, origin: '48% 49%', action: {from: [1135, 586], to: [1062, 503], click: 72}, focus: {left: 725, top: 360, width: 380, height: 315, label: 'PRETVORI NALAZ U PLAN'}},
-  {start: 2310, end: 2610, index: '08', kind: 'demo', shot: 'app-location.png', scale: 1.37, origin: '85% 45%', focus: {left: 1477, top: 143, width: 240, height: 446, label: 'ZAKLJUČAK ZA ODLUKU'}},
-  {start: 2610, end: 3240, index: '09', eyebrow: 'KUNA', title: ['Javni podaci.', 'Jasnija odluka.', 'Bolji početak.'], copy: 'KUNA nije odgovor umjesto poduzetnika. Ona je bolja polazna točka.', kind: 'closing'}
+  {start: 660, end: 930, index: '03', kind: 'demo', shot: 'app-location.png', scale: 1.34, origin: '15% 44%', action: {from: [255, 610], to: [145, 535], click: 62}, focus: {left: 102, top: 111, width: 258, height: 500, label: 'ODABERI GRAD I PROFIL'}},
+  {start: 930, end: 1140, index: '04', kind: 'demo', shot: 'app-market.png', scale: 1.42, origin: '23% 18%', action: {from: [555, 292], to: [451, 199], click: 60}, focus: {left: 367, top: 112, width: 224, height: 137, label: 'UKLJUČI POSLOVNE SLOJEVE'}},
+  {start: 1140, end: 1410, index: '05', kind: 'demo', shot: 'app-market.png', scale: 1.25, origin: '55% 50%', action: {from: [1150, 708], to: [938, 548], click: 62}, focus: {left: 760, top: 300, width: 430, height: 470, label: 'ČITAJ ODNOS SIGNALA NA KARTI'}},
+  {start: 1410, end: 1770, index: '06', kind: 'demo', shot: 'app-ai.png', background: 'app-location.png', modalCrop: {left: 670, top: 365, width: 488, height: 304}, scale: 1.31, origin: '50% 47%', action: {from: [920, 472], to: [1080, 594], click: 150}, focus: {left: 670, top: 365, width: 488, height: 304, label: 'PITAJ KUNA AI O LOKACIJI'}, ai: true},
+  {start: 1770, end: 2010, index: '07', kind: 'demo', shot: 'app-plan.png', background: 'app-location.png', modalCrop: {left: 734, top: 370, width: 360, height: 298}, scale: 1.45, origin: '48% 49%', action: {from: [1135, 586], to: [1062, 503], click: 60}, focus: {left: 725, top: 360, width: 380, height: 315, label: 'PRETVORI NALAZ U PLAN'}},
+  {start: 2010, end: 2220, index: '08', kind: 'demo', shot: 'app-location.png', scale: 1.24, origin: '52% 22%', focus: {left: 1477, top: 143, width: 240, height: 446, label: 'ZAKLJUČAK ZA ODLUKU'}},
+  {start: 2220, end: 2820, index: '09', eyebrow: 'KUNA', title: ['Javni podaci.', 'Jasnija odluka.', 'Bolji početak.'], copy: 'KUNA nije odgovor umjesto poduzetnika. Ona je bolja polazna točka.', kind: 'closing'}
 ];
 
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'};
@@ -71,17 +71,17 @@ const Cursor = ({action, localFrame}) => {
 };
 
 const AiInteraction = ({localFrame}) => {
-  const question = 'Koju prazninu u ponudi vrijedi testirati?';
+  const question = 'Napiši samo jednu rečenicu: koja je najvažnija provjera prije otvaranja malog bistroa na ovoj lokaciji?';
   const count = Math.floor(interpolate(localFrame, [52, 132], [0, question.length], clamp));
   const answer = interpolate(localFrame, [165, 180], [0, 1], clamp);
-  return <><div className="ai-question" style={{opacity: interpolate(localFrame, [42, 52], [0, 1], clamp)}}>{question.slice(0, count)}<i/></div><div className="ai-response" style={{opacity: answer, transform: `translateY(${interpolate(answer, [0, 1], [14, 0])}px)`}}><b>KUNA AI</b><span>Testirajte jutarnju ponudu za stanovnike i radnike; aktivnost je vidljiva, a ponuda je jača navečer.</span></div></>;
+  return <><div className="ai-question" style={{opacity: interpolate(localFrame, [42, 52], [0, 1], clamp)}}>{question.slice(0, count)}<i/></div><div className="ai-status" style={{opacity: interpolate(localFrame, [138, 148, 162, 170], [0, 1, 1, 0], clamp)}}>KUNA AI čita kontekst karte…</div><div className="ai-response" style={{opacity: answer, transform: `translateY(${interpolate(answer, [0, 1], [14, 0])}px)`}}><b>ODGOVOR · OLLAMA (LOKALNO) · QWEN2.5:3B</b><span>Broj konkurentskih poslova i dostupnost parkiranja je najvažnija provjera prije otvaranja malog bistroa na ovoj lokaciji.</span></div></>;
 };
 
 const ProductDemo = ({scene}) => {
   const frame = useCurrentFrame();
   const localFrame = Math.max(0, frame - scene.start);
   const zoom = interpolate(localFrame, [0, 22], [scene.scale - .08, scene.scale], clamp);
-  return <div className="product-demo"><div className="demo-stage" style={{transform: `scale(${zoom})`, transformOrigin: scene.origin}}><Img src={staticFile(scene.shot)} /><div className="demo-focus" style={{left: scene.focus.left, top: scene.focus.top, width: scene.focus.width, height: scene.focus.height}}><span>{scene.focus.label}</span></div><Cursor action={scene.action} localFrame={localFrame}/>{scene.ai && <AiInteraction localFrame={localFrame}/>}</div></div>;
+  return <div className="product-demo"><div className="demo-stage" style={{transform: `scale(${zoom})`, transformOrigin: scene.origin}}><Img src={staticFile(scene.background || scene.shot)} />{scene.modalCrop && <div className="modal-crop" style={{left: scene.modalCrop.left, top: scene.modalCrop.top, width: scene.modalCrop.width, height: scene.modalCrop.height}}><Img src={staticFile(scene.shot)} style={{transform: `translate(${-scene.modalCrop.left}px, ${-scene.modalCrop.top}px)`}}/></div>}<div className="demo-focus" style={{left: scene.focus.left, top: scene.focus.top, width: scene.focus.width, height: scene.focus.height}}><span>{scene.focus.label}</span></div><Cursor action={scene.action} localFrame={localFrame}/>{scene.ai && <AiInteraction localFrame={localFrame}/>}</div></div>;
 };
 
 const Visual = ({kind, scene}) => {
