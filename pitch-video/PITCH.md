@@ -1,16 +1,14 @@
-# KUNA — pitch, oko 2 minute
+# KUNA — govor uz video, oko 80 sekundi
 
 Zamislite da sutra želite otvoriti mali bistro, obrt ili uslugu. Prvo pitanje nije samo što otvoriti, nego gdje. Danas odgovor tražite između karata, statistika, oglasa, obilaska terena i deset otvorenih kartica. Podaci postoje, ali odluka je i dalje teška.
 
-Zato smo napravili KUNU — Lokalni tržišni kompas. KUNA pomaže budućem poduzetniku da javne podatke pročita kao lokalni kontekst za odluku o poslovanju.
+Zato smo napravili KUNU — Lokalni tržišni kompas. KUNA povezuje javne podatke u jedan jasan pogled na poslovnu lokaciju.
 
-Korisnik počinje na jednoj karti Hrvatske i bez prekida se približava gradu i konkretnoj zoni. Ne prebacujemo ga između nepovezanih izvora. Na istoj karti vidi ono što najviše utječe na prvi poslovni korak: stalnu bazu stanovnika, sezonski kontekst, konkurenciju, javni prijevoz, parkiranje i točke aktivnosti.
+Korisnik odabire grad i profil poslovanja. Odmah vidi stalnu bazu stanovnika, sezonski kontekst, pristup, konkurenciju i parkiranje. Zatim uključuje samo slojeve koji su važni za njegovu odluku.
 
-Ali KUNA ne prikazuje samo mnogo točaka. Ona pomaže razumjeti njihov odnos. Procijenjeni dohvat prati cestovnu mrežu, a tržišni ritam izdvaja zone u kojima se vide pristup i aktivnost, ali i razinu postojeće ponude. Tako korisnik ne dobiva odgovor “otvori ovdje”, nego vidi zašto neku lokaciju vrijedi dalje provjeriti i čime bi se mogao razlikovati.
+Ali KUNA ne prikazuje samo puno točaka. Dohvat prati cestovnu mrežu, a karta pomaže čitati odnos pristupa, aktivnosti i postojeće ponude. To nije preporuka “otvori ovdje”, nego dokaz zbog kojeg lokaciju vrijedi ozbiljno provjeriti.
 
-Podatke povezujemo iz više javnih izvora: pripremljeni demografski i sezonski kontekst DZS-a te svježi poslovno relevantni OSM signali kroz javni API. Sve je jasno označeno: karta daje signal, ne prognozu prihoda.
-
-Kada karta otvori pitanje, KUNA AI daje sažet odgovor iz istog prikazanog konteksta. Model radi lokalno, bez plaćenog API-ja i bez slanja pitanja izvan računala. Nakon toga korisnik može spremiti nalaz u jednostavan jednoslojni sažetak i prijeći na sljedeće službene korake — od provjere prostora do registracije i zapošljavanja.
+Kada se pojavi konkretno pitanje, korisnik ga može postaviti KUNA AI-ju. Model radi lokalno, bez plaćenog API-ja, i odgovara iz istog konteksta koji je već prikazan na karti. Nakon procjene, KUNA vodi do sljedećih koraka: provjere prostora, odabira djelatnosti, registracije i početka rada.
 
 KUNA ne odlučuje umjesto poduzetnika. Ona javne podatke pretvara u jasniju odluku i bolji početak.
 
