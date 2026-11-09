@@ -36,10 +36,6 @@ AI_PROVIDER=openai OPENAI_API_KEY=... npm start
 
 Podrazumijevani OpenAI model je `gpt-5.4-mini`; može se promijeniti s `OPENAI_MODEL`. Ključ se nikad ne upisuje u `index.html`, klijentski JavaScript ni ZIP paket.
 
-## Predaja
-
-Za slanje žiriju upotrijebite `outputs/lokalni-trzisni-kompas.zip`. Sadrži izvorni kod, dokumentaciju i SVG oznaku, bez nepotrebnih ovisnosti.
-
 ## Sadržaj
 
 - `index.html`, `styles.css`, `app.js` — dostupno sučelje i interakcije
