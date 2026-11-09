@@ -1,7 +1,5 @@
 # Kuna — Lokalni tržišni kompas RH
 
-Samostalni, statični natjecateljski prototip za usporedbu poslovnih lokacija uz javne izvore. Cijelo korisničko sučelje je na hrvatskom jeziku.
-
 ## Transparentnost rješenja
 
 Umjetna inteligencija korištena je kao pomoć pri izradi ovog rješenja. KUNA je simboličan, demonstracijski prototip: ne jamčimo točnost, potpunost ni aktualnost podataka, niti zaključci predstavljaju financijski, pravni, porezni ili investicijski savjet. Prije odluke treba provjeriti aktualne izvorne podatke, konkretan prostor i uvjete nadležnih tijela.
