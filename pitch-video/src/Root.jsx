@@ -5,7 +5,7 @@ export const Root = () => <>
   <Composition
     id="KunaPitch"
     component={KunaPitch}
-    durationInFrames={3540}
+    durationInFrames={3240}
     fps={30}
     width={1920}
     height={1080}
