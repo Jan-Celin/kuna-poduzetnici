@@ -1,16 +1,18 @@
 import React from 'react';
-import {AbsoluteFill, Easing, interpolate, spring, useCurrentFrame, useVideoConfig} from 'remotion';
+import {AbsoluteFill, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import './style.css';
+import './demo.css';
 
 const scenes = [
   {start: 0, end: 330, index: '01', eyebrow: 'LOKALNI TRŽIŠNI KOMPAS', title: ['Otvoriti posao', 'ne bi smjelo početi', 'nagađanjem.'], copy: 'KUNA pretvara javne podatke u razgovor o lokaciji.', kind: 'opening'},
-  {start: 330, end: 700, index: '02', eyebrow: 'PROBLEM', title: ['Podaci postoje.', 'Odluka je i dalje', 'teška.'], copy: 'Karta, demografija, pristup i konkurencija rijetko su na istome mjestu.', kind: 'problem'},
-  {start: 700, end: 1080, index: '03', eyebrow: 'JEDNA KARTA', title: ['Od Hrvatske', 'do konkretne', 'ulice.'], copy: 'Isti prikaz prati korisnika od nacionalnog pregleda do lokacijskog konteksta.', kind: 'map'},
-  {start: 1080, end: 1480, index: '04', eyebrow: 'TRI ODLUKE', title: ['Gdje? Za koga?', 'S kojim', 'sljedećim korakom?'], copy: 'KUNA povezuje signal potražnje, pristupa i tržišta — bez lažne preciznosti.', kind: 'signals'},
-  {start: 1480, end: 1900, index: '05', eyebrow: 'PODACI KOJI RADE ZAJEDNO', title: ['Ne samo točke.', 'Odnos', 'među točkama.'], copy: 'Cestovni dohvat, tržišni ritam i slojevi čine prostorne odnose čitljivima.', kind: 'insight'},
-  {start: 1900, end: 2300, index: '06', eyebrow: 'ODLUKA, NE PRETPOSTAVKA', title: ['AI pita', 'ono što karta', 'još ne kaže.'], copy: 'Lokalni model odgovara samo iz prikazanog, agregiranog konteksta.', kind: 'ai'},
-  {start: 2300, end: 2900, index: '07', eyebrow: 'OD LOKACIJE DO POKRETANJA', title: ['Odaberi smjer.', 'Zabilježi nalaz.', 'Pokreni korak.'], copy: 'Jedna stranica zaključaka i poveznice prema službenim postupcima ostavljaju jasan trag odluke.', kind: 'flow'},
-  {start: 2900, end: 3540, index: '08', eyebrow: 'KUNA', title: ['Javni podaci.', 'Jasnija odluka.', 'Bolji početak.'], copy: 'KUNA nije odgovor umjesto poduzetnika. Ona je bolja polazna točka.', kind: 'closing'}
+  {start: 330, end: 660, index: '02', eyebrow: 'PROBLEM', title: ['Podaci postoje.', 'Odluka je i dalje', 'teška.'], copy: 'Karta, demografija, pristup i konkurencija rijetko su na istome mjestu.', kind: 'problem'},
+  {start: 660, end: 1020, index: '03', eyebrow: 'STVARNI TOK · 01', title: ['Od Hrvatske', 'do grada', 'u jednom potezu.'], copy: 'Korisnik odabire grad, a karta zadržava poslovni kontekst na istome mjestu.', kind: 'demo', shot: 'app-location.png', badge: 'ODABIR LOKACIJE'},
+  {start: 1020, end: 1410, index: '04', eyebrow: 'STVARNI TOK · 02', title: ['Uključi', 'samo relevantne', 'signale.'], copy: 'Konkurencija, parkiranje, stajališta, dohvat po cestama i stanovništvo ostaju čitljivi kao slojevi karte.', kind: 'demo', shot: 'app-market.png', badge: 'TRŽIŠNI SLOJEVI'},
+  {start: 1410, end: 1770, index: '05', eyebrow: 'STVARNI TOK · 03', title: ['Čitaj odnos.', 'Ne samo', 'broj točaka.'], copy: 'Tržišni ritam ističe zonu s pristupom, aktivnošću i postojećom ponudom — temelj za poslovnu hipotezu.', kind: 'demo', shot: 'app-market.png', badge: 'TRŽIŠNI RITAM', zoom: true},
+  {start: 1770, end: 2130, index: '06', eyebrow: 'STVARNI TOK · 04', title: ['Pitaj baš', 'o odabranoj', 'lokaciji.'], copy: 'KUNA AI radi lokalno i dobiva samo isti agregirani kontekst koji korisnik već vidi na karti.', kind: 'demo', shot: 'app-ai.png', badge: 'LOKALNI AI'},
+  {start: 2130, end: 2490, index: '07', eyebrow: 'STVARNI TOK · 05', title: ['Pretvori nalaz', 'u sljedeći', 'korak.'], copy: 'Nakon analize slijedi jasan put: prostor, djelatnost, registracija i početak rada.', kind: 'demo', shot: 'app-plan.png', badge: 'PLAN POKRETANJA'},
+  {start: 2490, end: 2850, index: '08', eyebrow: 'JEDAN SAŽETAK', title: ['Karta.', 'Zaključak.', 'Sljedeći potez.'], copy: 'KUNA povezuje lokacijski signal s odlukom koju korisnik može objasniti i provjeriti.', kind: 'flow'},
+  {start: 2850, end: 3540, index: '09', eyebrow: 'KUNA', title: ['Javni podaci.', 'Jasnija odluka.', 'Bolji početak.'], copy: 'KUNA nije odgovor umjesto poduzetnika. Ona je bolja polazna točka.', kind: 'closing'}
 ];
 
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'};
@@ -59,7 +61,10 @@ const AiPanel = () => <div className="ai-panel"><div className="ai-top"><span>�
 
 const Flow = () => <div className="flow"><div><b>01</b><span>Lokacija</span></div><i>→</i><div><b>02</b><span>Zaključak</span></div><i>→</i><div><b>03</b><span>Plan</span></div><i>→</i><div><b>04</b><span>Pokretanje</span></div></div>;
 
-const Visual = ({kind}) => {
+const ProductDemo = ({scene}) => <div className={`product-demo ${scene.zoom ? 'zoom' : ''}`}><Img src={staticFile(scene.shot)} /><div className="demo-badge"><i>●</i>{scene.badge}</div></div>;
+
+const Visual = ({kind, scene}) => {
+  if (kind === 'demo') return <ProductDemo scene={scene}/>;
   if (kind === 'opening' || kind === 'closing') return <div className="hero-visual"><Mark/><div className="ring ring-a"/><div className="ring ring-b"/><div className="hero-map"><MiniMap mode="hero"/></div></div>;
   if (kind === 'problem') return <div className="problem-visual"><div className="fragment f-one">KARTA</div><div className="fragment f-two">DEMOGRAFIJA</div><div className="fragment f-three">KONKURENCIJA</div><div className="fragment f-four">PRISTUP</div><div className="scatter-line"/></div>;
   if (kind === 'map') return <MiniMap mode="wide"/>;
@@ -77,7 +82,7 @@ const Scene = ({scene}) => {
   return <div className={`scene ${scene.kind}`} style={reveal(frame, scene.start, scene.end)}>
     <div className="scene-meta"><span>{scene.index}</span><i/><b>{scene.eyebrow}</b></div>
     <div className="copy"><h1>{words}</h1><p>{scene.copy}</p><div className="progress"><i style={{transform:`scaleX(${progress})`}}/></div></div>
-    <div className="visual"><Visual kind={scene.kind}/></div>
+    <div className="visual"><Visual kind={scene.kind} scene={scene}/></div>
   </div>;
 };
 

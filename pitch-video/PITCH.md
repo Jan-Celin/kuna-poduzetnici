@@ -18,8 +18,8 @@ KUNA ne odlučuje umjesto poduzetnika. Ona javne podatke pretvara u jasniju odlu
 
 | Vrijeme | Poruka | Video scena |
 |---|---|---|
-| 0:00–0:18 | Problem odluke o lokaciji | 01–02 |
-| 0:18–0:42 | Što je KUNA i kako se koristi karta | 03 |
-| 0:42–1:16 | Tri odluke i povezani podaci | 04–05 |
-| 1:16–1:43 | Lokalni AI i plan pokretanja | 06–07 |
-| 1:43–2:00 | Zaključak | 08 |
+| 0:00–0:22 | Problem odluke o lokaciji | 01–02 |
+| 0:22–0:58 | Odabir grada i slojevi karte | 03–04 |
+| 0:58–1:18 | Čitanje tržišnog ritma | 05 |
+| 1:18–1:43 | Lokalni AI i plan pokretanja | 06–07 |
+| 1:43–2:00 | Sažetak i zaključak | 08–09 |

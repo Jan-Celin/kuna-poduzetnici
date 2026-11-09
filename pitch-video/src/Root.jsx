@@ -1,7 +1,7 @@
 import {Composition} from 'remotion';
 import {KunaPitch} from './KunaPitch';
 
-export const Root = () => (
+export const Root = () => <>
   <Composition
     id="KunaPitch"
     component={KunaPitch}
@@ -10,4 +10,4 @@ export const Root = () => (
     width={1920}
     height={1080}
   />
-);
+</>;
