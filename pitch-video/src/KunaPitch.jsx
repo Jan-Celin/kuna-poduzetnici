@@ -99,7 +99,8 @@ const Scene = ({scene}) => {
   const {fps} = useVideoConfig();
   if (scene.kind === 'demo') {
     const localFrame = Math.max(0, frame - scene.start);
-    return <div className="scene demo" style={{opacity: interpolate(localFrame, [0, 12], [0, 1], clamp)}}><ProductDemo scene={scene}/></div>;
+    const duration = scene.end - scene.start;
+    return <div className="scene demo" style={{opacity: interpolate(localFrame, [0, 12, duration - 12, duration], [0, 1, 1, 0], clamp)}}><ProductDemo scene={scene}/></div>;
   }
   const progress = spring({frame: Math.max(0, frame - scene.start), fps, config: {damping: 120, stiffness: 85}});
   const words = scene.title.map((line, index) => <span key={line} style={{opacity: interpolate(frame,[scene.start + 18 + index * 8, scene.start + 36 + index * 8],[0,1],clamp), transform:`translateY(${interpolate(frame,[scene.start + 18 + index * 8,scene.start + 36 + index * 8],[36,0],clamp)}px)`}}>{line}</span>);
