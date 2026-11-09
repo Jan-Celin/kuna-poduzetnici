@@ -6,12 +6,12 @@ import './demo.css';
 const scenes = [
   {start: 0, end: 330, index: '01', eyebrow: 'LOKALNI TRŽIŠNI KOMPAS', title: ['Otvoriti posao', 'ne bi smjelo početi', 'nagađanjem.'], copy: 'KUNA pretvara javne podatke u razgovor o lokaciji.', kind: 'opening'},
   {start: 330, end: 660, index: '02', eyebrow: 'PROBLEM', title: ['Podaci postoje.', 'Odluka je i dalje', 'teška.'], copy: 'Karta, demografija, pristup i konkurencija rijetko su na istome mjestu.', kind: 'problem'},
-  {start: 660, end: 1020, index: '03', eyebrow: 'STVARNI TOK · 01', title: ['Od Hrvatske', 'do grada', 'u jednom potezu.'], copy: 'Korisnik odabire grad, a karta zadržava poslovni kontekst na istome mjestu.', kind: 'demo', shot: 'app-location.png', badge: 'ODABIR LOKACIJE'},
-  {start: 1020, end: 1410, index: '04', eyebrow: 'STVARNI TOK · 02', title: ['Uključi', 'samo relevantne', 'signale.'], copy: 'Konkurencija, parkiranje, stajališta, dohvat po cestama i stanovništvo ostaju čitljivi kao slojevi karte.', kind: 'demo', shot: 'app-market.png', badge: 'TRŽIŠNI SLOJEVI'},
-  {start: 1410, end: 1770, index: '05', eyebrow: 'STVARNI TOK · 03', title: ['Čitaj odnos.', 'Ne samo', 'broj točaka.'], copy: 'Tržišni ritam ističe zonu s pristupom, aktivnošću i postojećom ponudom — temelj za poslovnu hipotezu.', kind: 'demo', shot: 'app-market.png', badge: 'TRŽIŠNI RITAM', zoom: true},
-  {start: 1770, end: 2130, index: '06', eyebrow: 'STVARNI TOK · 04', title: ['Pitaj baš', 'o odabranoj', 'lokaciji.'], copy: 'KUNA AI radi lokalno i dobiva samo isti agregirani kontekst koji korisnik već vidi na karti.', kind: 'demo', shot: 'app-ai.png', badge: 'LOKALNI AI'},
-  {start: 2130, end: 2490, index: '07', eyebrow: 'STVARNI TOK · 05', title: ['Pretvori nalaz', 'u sljedeći', 'korak.'], copy: 'Nakon analize slijedi jasan put: prostor, djelatnost, registracija i početak rada.', kind: 'demo', shot: 'app-plan.png', badge: 'PLAN POKRETANJA'},
-  {start: 2490, end: 2850, index: '08', eyebrow: 'JEDAN SAŽETAK', title: ['Karta.', 'Zaključak.', 'Sljedeći potez.'], copy: 'KUNA povezuje lokacijski signal s odlukom koju korisnik može objasniti i provjeriti.', kind: 'flow'},
+  {start: 660, end: 1020, index: '03', kind: 'demo', shot: 'app-location.png', focus: {left: 102, top: 111, width: 258, height: 500, label: 'ODABERI GRAD I PROFIL'}},
+  {start: 1020, end: 1410, index: '04', kind: 'demo', shot: 'app-market.png', focus: {left: 367, top: 112, width: 224, height: 137, label: 'UKLJUČI POSLOVNE SLOJEVE'}},
+  {start: 1410, end: 1770, index: '05', kind: 'demo', shot: 'app-market.png', focus: {left: 600, top: 150, width: 854, height: 770, label: 'ČITAJ ODNOS SIGNALA NA KARTI'}},
+  {start: 1770, end: 2130, index: '06', kind: 'demo', shot: 'app-ai.png', focus: {left: 670, top: 365, width: 488, height: 304, label: 'PITAJ KUNA AI O LOKACIJI'}},
+  {start: 2130, end: 2490, index: '07', kind: 'demo', shot: 'app-plan.png', focus: {left: 725, top: 360, width: 380, height: 315, label: 'PRETVORI NALAZ U PLAN'}},
+  {start: 2490, end: 2850, index: '08', kind: 'demo', shot: 'app-location.png', focus: {left: 1477, top: 143, width: 240, height: 446, label: 'ZAKLJUČAK ZA ODLUKU'}},
   {start: 2850, end: 3540, index: '09', eyebrow: 'KUNA', title: ['Javni podaci.', 'Jasnija odluka.', 'Bolji početak.'], copy: 'KUNA nije odgovor umjesto poduzetnika. Ona je bolja polazna točka.', kind: 'closing'}
 ];
 
@@ -61,7 +61,7 @@ const AiPanel = () => <div className="ai-panel"><div className="ai-top"><span>�
 
 const Flow = () => <div className="flow"><div><b>01</b><span>Lokacija</span></div><i>→</i><div><b>02</b><span>Zaključak</span></div><i>→</i><div><b>03</b><span>Plan</span></div><i>→</i><div><b>04</b><span>Pokretanje</span></div></div>;
 
-const ProductDemo = ({scene}) => <div className={`product-demo ${scene.zoom ? 'zoom' : ''}`}><Img src={staticFile(scene.shot)} /><div className="demo-badge"><i>●</i>{scene.badge}</div></div>;
+const ProductDemo = ({scene}) => <div className="product-demo"><div className="demo-stage"><Img src={staticFile(scene.shot)} /><div className="demo-focus" style={{left: scene.focus.left, top: scene.focus.top, width: scene.focus.width, height: scene.focus.height}}><span>{scene.focus.label}</span></div></div></div>;
 
 const Visual = ({kind, scene}) => {
   if (kind === 'demo') return <ProductDemo scene={scene}/>;
@@ -77,6 +77,10 @@ const Visual = ({kind, scene}) => {
 const Scene = ({scene}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
+  if (scene.kind === 'demo') {
+    const localFrame = Math.max(0, frame - scene.start);
+    return <div className="scene demo" style={{opacity: interpolate(localFrame, [0, 12], [0, 1], clamp)}}><ProductDemo scene={scene}/></div>;
+  }
   const progress = spring({frame: Math.max(0, frame - scene.start), fps, config: {damping: 120, stiffness: 85}});
   const words = scene.title.map((line, index) => <span key={line} style={{opacity: interpolate(frame,[scene.start + 18 + index * 8, scene.start + 36 + index * 8],[0,1],clamp), transform:`translateY(${interpolate(frame,[scene.start + 18 + index * 8,scene.start + 36 + index * 8],[36,0],clamp)}px)`}}>{line}</span>);
   return <div className={`scene ${scene.kind}`} style={reveal(frame, scene.start, scene.end)}>
