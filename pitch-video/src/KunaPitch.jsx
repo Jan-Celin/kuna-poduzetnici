@@ -1,0 +1,84 @@
+import React from 'react';
+import {AbsoluteFill, Easing, interpolate, spring, useCurrentFrame, useVideoConfig} from 'remotion';
+import './style.css';
+
+const scenes = [
+  {start: 0, end: 330, index: '01', eyebrow: 'LOKALNI TRŽIŠNI KOMPAS', title: ['Otvoriti posao', 'ne bi smjelo početi', 'nagađanjem.'], copy: 'KUNA pretvara javne podatke u razgovor o lokaciji.', kind: 'opening'},
+  {start: 330, end: 700, index: '02', eyebrow: 'PROBLEM', title: ['Podaci postoje.', 'Odluka je i dalje', 'teška.'], copy: 'Karta, demografija, pristup i konkurencija rijetko su na istome mjestu.', kind: 'problem'},
+  {start: 700, end: 1080, index: '03', eyebrow: 'JEDNA KARTA', title: ['Od Hrvatske', 'do konkretne', 'ulice.'], copy: 'Isti prikaz prati korisnika od nacionalnog pregleda do lokacijskog konteksta.', kind: 'map'},
+  {start: 1080, end: 1480, index: '04', eyebrow: 'TRI ODLUKE', title: ['Gdje? Za koga?', 'S kojim', 'sljedećim korakom?'], copy: 'KUNA povezuje signal potražnje, pristupa i tržišta — bez lažne preciznosti.', kind: 'signals'},
+  {start: 1480, end: 1900, index: '05', eyebrow: 'PODACI KOJI RADE ZAJEDNO', title: ['Ne samo točke.', 'Odnos', 'među točkama.'], copy: 'Cestovni dohvat, tržišni ritam i slojevi čine prostorne odnose čitljivima.', kind: 'insight'},
+  {start: 1900, end: 2300, index: '06', eyebrow: 'ODLUKA, NE PRETPOSTAVKA', title: ['AI pita', 'ono što karta', 'još ne kaže.'], copy: 'Lokalni model odgovara samo iz prikazanog, agregiranog konteksta.', kind: 'ai'},
+  {start: 2300, end: 2900, index: '07', eyebrow: 'OD LOKACIJE DO POKRETANJA', title: ['Odaberi smjer.', 'Zabilježi nalaz.', 'Pokreni korak.'], copy: 'Jedna stranica zaključaka i poveznice prema službenim postupcima ostavljaju jasan trag odluke.', kind: 'flow'},
+  {start: 2900, end: 3540, index: '08', eyebrow: 'KUNA', title: ['Javni podaci.', 'Jasnija odluka.', 'Bolji početak.'], copy: 'KUNA nije odgovor umjesto poduzetnika. Ona je bolja polazna točka.', kind: 'closing'}
+];
+
+const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'};
+
+const reveal = (frame, start, end) => ({
+  opacity: interpolate(frame, [start, start + 14, end - 14, end], [0, 1, 1, 0], clamp),
+  transform: `translateY(${interpolate(frame, [start, start + 18], [28, 0], clamp)}px)`
+});
+
+const Mark = () => <div className="mark"><span className="mark-tail"/><span className="mark-body"/><span className="mark-eye"/></div>;
+
+const Ambient = () => {
+  const frame = useCurrentFrame();
+  return <>
+    <div className="grain"/>
+    <div className="grid"/>
+    <div className="orb orb-one" style={{transform:`translate(${Math.sin(frame / 90) * 24}px, ${Math.cos(frame / 110) * 19}px)`}}/>
+    <div className="orb orb-two" style={{transform:`translate(${Math.cos(frame / 80) * 20}px, ${Math.sin(frame / 100) * 22}px)`}}/>
+  </>;
+};
+
+const MiniMap = ({mode}) => {
+  const frame = useCurrentFrame();
+  const dash = 520 + (frame % 90) * 4;
+  return <div className={`mini-map ${mode}`}>
+    <svg viewBox="0 0 700 540" aria-label="Stilizirana karta s poslovnim signalima">
+      <path className="coast" d="M106 96 C155 45 232 76 273 135 C302 177 341 196 389 179 C431 164 487 133 551 153 C610 171 621 234 584 275 C553 310 522 329 527 374 C530 407 484 438 432 421 C389 408 356 437 300 429 C241 420 194 388 159 339 C123 288 65 270 82 206 C92 169 83 132 106 96 Z"/>
+      <path className="road road-main" d="M107 266 C198 205 274 282 349 233 S493 162 584 218"/>
+      <path className="road road-sub" d="M164 117 C189 185 235 246 299 347 S441 390 535 344"/>
+      <path className="road road-sub" d="M138 314 C215 340 274 323 356 275 S458 276 548 295"/>
+      <path className="reach-line" strokeDasharray="11 13" strokeDashoffset={dash} d="M149 285 C246 203 365 197 514 231"/>
+      <circle className="reach" cx="354" cy="264" r="148"/>
+      {[[215,231,'#d96c4e'],[290,316,'#643f82'],[407,226,'#216f78'],[476,299,'#b16e20'],[338,180,'#d96c4e'],[286,246,'#643f82'],[415,347,'#216f78']].map(([cx,cy,color],index)=><g key={index} className="pin" style={{transformOrigin:`${cx}px ${cy}px`,transform:`scale(${1 + Math.sin((frame + index * 12) / 20) * .06})`}}><circle cx={cx} cy={cy} r="13" fill={color}/><circle cx={cx} cy={cy} r="5" fill="#f7f4ed"/></g>)}
+      <circle className="origin" cx="354" cy="264" r="11"/>
+    </svg>
+    <div className="map-label label-access">15 min po cestama</div>
+    <div className="map-label label-market">tržišni ritam</div>
+  </div>;
+};
+
+const Numbers = () => <div className="numbers"><div><b>70.829</b><span>stanovnika</span></div><div><b>4,2×</b><span>sezonski kontekst</span></div><div><b>69</b><span>živi OSM signali</span></div></div>;
+
+const DataRail = () => <div className="data-rail"><span>DZS</span><i/><span>OSM API</span><i/><span>PROSTORNI SIGNALI</span><i/><span>ODLUKA</span></div>;
+
+const AiPanel = () => <div className="ai-panel"><div className="ai-top"><span>●</span><b>KUNA AI</b><em>lokalno</em></div><p>Gdje se vidi prostor za razlikovanje?</p><div className="ai-answer"><i>↗</i><span>Pristup i aktivnost su vidljivi; ponuda traži jasan fokus.</span></div></div>;
+
+const Flow = () => <div className="flow"><div><b>01</b><span>Lokacija</span></div><i>→</i><div><b>02</b><span>Zaključak</span></div><i>→</i><div><b>03</b><span>Plan</span></div><i>→</i><div><b>04</b><span>Pokretanje</span></div></div>;
+
+const Visual = ({kind}) => {
+  if (kind === 'opening' || kind === 'closing') return <div className="hero-visual"><Mark/><div className="ring ring-a"/><div className="ring ring-b"/><div className="hero-map"><MiniMap mode="hero"/></div></div>;
+  if (kind === 'problem') return <div className="problem-visual"><div className="fragment f-one">KARTA</div><div className="fragment f-two">DEMOGRAFIJA</div><div className="fragment f-three">KONKURENCIJA</div><div className="fragment f-four">PRISTUP</div><div className="scatter-line"/></div>;
+  if (kind === 'map') return <MiniMap mode="wide"/>;
+  if (kind === 'signals') return <div className="signal-visual"><Numbers/><DataRail/></div>;
+  if (kind === 'insight') return <div className="insight-visual"><MiniMap mode="insight"/><div className="insight-card"><small>PROSTOR ZA TEST</small><b>Pristup + aktivnost<br/>uz manje ponude</b><span>Čitaj odnos signala, ne samo broj točaka.</span></div></div>;
+  if (kind === 'ai') return <div className="ai-visual"><AiPanel/><div className="context-card"><small>KONTEKST KOJI MODEL VIDI</small><span>grad · profil · dohvat · agregirani signali</span></div></div>;
+  return <Flow/>;
+};
+
+const Scene = ({scene}) => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const progress = spring({frame: Math.max(0, frame - scene.start), fps, config: {damping: 120, stiffness: 85}});
+  const words = scene.title.map((line, index) => <span key={line} style={{opacity: interpolate(frame,[scene.start + 18 + index * 8, scene.start + 36 + index * 8],[0,1],clamp), transform:`translateY(${interpolate(frame,[scene.start + 18 + index * 8,scene.start + 36 + index * 8],[36,0],clamp)}px)`}}>{line}</span>);
+  return <div className={`scene ${scene.kind}`} style={reveal(frame, scene.start, scene.end)}>
+    <div className="scene-meta"><span>{scene.index}</span><i/><b>{scene.eyebrow}</b></div>
+    <div className="copy"><h1>{words}</h1><p>{scene.copy}</p><div className="progress"><i style={{transform:`scaleX(${progress})`}}/></div></div>
+    <div className="visual"><Visual kind={scene.kind}/></div>
+  </div>;
+};
+
+export const KunaPitch = () => <AbsoluteFill className="canvas"><Ambient/>{scenes.map(scene=><Scene scene={scene} key={scene.index}/>)}</AbsoluteFill>;
