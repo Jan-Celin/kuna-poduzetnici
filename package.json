@@ -1,0 +1,12 @@
+{
+  "name": "kuna-lokalni-trzisni-kompas",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Competition prototype: evidence-led Croatian local-business location comparison.",
+  "scripts": {
+    "start": "node server.mjs",
+    "check": "node --check app.js && node --check server.mjs && node --check scripts/refresh-osm-data.mjs",
+    "refresh-map-data": "node scripts/refresh-osm-data.mjs"
+  },
+  "engines": { "node": ">=18" }
+}
